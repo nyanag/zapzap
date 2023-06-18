@@ -7,7 +7,7 @@ Run the application in the frontend directory using
 # Backend
 Install the dependencies using
 ``` npm install ```
-Run the application in the frontend directory using 
+Run the application in the backend directory using 
 ```npm start   ```
 
 # Process
