@@ -2,8 +2,8 @@ import express from "express";
 import nodemailer from "nodemailer";
 import csv from "csv-parser";
 import multer from "multer";
-
-
+import cors from "cors";
+import * as fs from 'fs';
 
 const app = express();
 
@@ -13,6 +13,12 @@ const app = express();
 // Handle case when the csv is not formatted right
 
 const upload = multer({ dest: 'uploads/' });
+
+app.use(cors({
+    origin: 'http://localhost:3000', 
+    credentials: true, 
+    methods: "GET, POST, PUT, DELETE" 
+  }));
 
 app.post('/api/upload', upload.single('file'), (req, res) => {
 
@@ -45,30 +51,30 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
       .on('data', (data) => results.push(data))
       .on('end', () => {
         results.forEach((row) => {
-          const { emailAddress, sender, recipient, subject, body } = row;
-  
+            console.log(row)
+          const { emailaddress, subject, body } = row;
+          console.log(emailaddress, subject, body)
           const mailOptions = {
-            from: sender,
-            to: recipient,
+            from: "ananyasonline@gmail.com",
+            to: emailaddress,
             subject: subject,
             text: body,
           };
   
-          transporter.sendMail(mailOptions, (error) => {
+          transporter.sendMail(mailOptions, (error,info) => {
             if (error) {
               console.error('Error sending email:', error);
             } else {
-              console.log('Email sent successfully!');
+                console.log('Message sent: %s', info.messageId);
+                console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
             }
           });
         });
 
-        console.log('Message sent: %s', info.messageId);
-        // Preview only available when sending through an Ethereal account
-        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+
     });
 
-      res.sendStatus(200);
+      res.json({ message: 'File uploaded successfully' });
     });
 });
 
