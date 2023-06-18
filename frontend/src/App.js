@@ -13,22 +13,20 @@ function App() {
   const handleFileUpload = async () => {
     const formData = new FormData();
     formData.append('file', file, file.name);
-    console.log(file)
   
     try {
-      const response = await fetch('http://localhost:3000/api/upload', {
+      const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
       });
   
       if (response.ok) {
         const data = await response.json();
         console.log('File uploaded successfully:', data);
+        alert("File uploaded successfully and emails sent!")
       } else {
         console.error('Error uploading file:', response.status);
+        alert("Invalid CSV format")
       }
     } catch (error) {
       console.error('Error uploading file:', error);

@@ -46,10 +46,23 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
 
     // Message object
     const results = [];
+    const requiredColumns = ['emailaddress', 'subject', 'body']; // Specify the required columns
+    let hasValidColumns = true
     fs.createReadStream(filePath)
       .pipe(csv())
-      .on('data', (data) => results.push(data))
+      .on('data', (data) => {
+
+        results.push(data)
+
+        if (!requiredColumns.every((column) => column in data)) {
+            hasValidColumns = false;
+          }
+    })
       .on('end', () => {
+        if (!hasValidColumns) {
+            console.log("ONVALID")
+            res.status(400).json({ message: 'Invalid CSV format' });
+          }
         results.forEach((row) => {
             console.log(row)
           const { emailaddress, subject, body } = row;
@@ -67,14 +80,13 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
             } else {
                 console.log('Message sent: %s', info.messageId);
                 console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+                res.json({ message: 'Emails sent' });
             }
           });
         });
 
 
     });
-
-      res.json({ message: 'File uploaded successfully' });
     });
 });
 

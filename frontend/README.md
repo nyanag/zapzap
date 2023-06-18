@@ -1,70 +1,32 @@
-# Getting Started with Create React App
+# Frontend
+Install the dependencies using
+``` npm install ```
+Run the application in the frontend directory using 
+```npm start   ```
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Backend
+Install the dependencies using
+``` npm install ```
+Run the application in the frontend directory using 
+```npm start   ```
 
-## Available Scripts
+# Process
+On uploading a csv file – the backend parses the file using csv-parser.
+If the file format is appropriate, the emails are sent out according to the csv using the nodemailer package. 
 
-In the project directory, you can run:
+# Previous Attempts
+1. Initially attempted to use Zapier, since the GSheets and GMail integration was smooth and worked well. However, integrating it to the frontend posed a few issues. 
+    - The new spreadsheet event was not getting triggered appropirately.
+    - The new file in Google Drive folder event was cumbersome. It involved using an intermediate event to be able to access the excel sheet data.
+    - Zapier webhook seems to be a premium feature and also integrating with Gmail requires Gdrive authentication which was tedious to set up.
 
-### `npm start`
+2. Decided against Zapier and looked for node packages instead, Nodemailer seemed appropriate. Integrating Gmail with nodemailer still required OAuth access tokens. Almost gave in to that method, but then I stumbled upon test accounts in nodemailer. 
+https://ethereal.email is a fake SMTP service which was ther perfect usecase for this project. 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# Output
+Following is an image from the fake SMTP service to view the email
+![Email](email.png)
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Following are the logs from the backend server
+![Server logs](server.png)
